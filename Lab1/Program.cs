@@ -18,8 +18,13 @@ namespace Programowanie_sieciowe
                 ProtocolType.Unspecified
             );
             socket.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 7));
-
+            
+            Console.WriteLine("Provide request data: ");
+            String data = Console.ReadLine();
             Console.WriteLine("Sending request");
+            socket.Send(Encoding.ASCII.GetBytes(data));
+
+            Console.WriteLine("Waiting for response");
             byte[] buffer = new byte[1024];
             int result = socket.Receive(buffer);
             String time = Encoding.ASCII.GetString(buffer, 0, result);
