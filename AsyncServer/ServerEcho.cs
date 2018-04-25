@@ -10,31 +10,27 @@ namespace AsyncServer
     public class StateObject
     {
         // Client  socket.  
-        public Socket workSocket = null;
+        public Socket WorkSocket;
 
         // Size of receive buffer.  
         public const int BufferSize = 1024;
 
         // Receive buffer.  
-        public byte[] buffer = new byte[BufferSize];
+        public byte[] Buffer = new byte[BufferSize];
 
         // Received data string.  
-        public StringBuilder sb = new StringBuilder();
+        public StringBuilder Sb = new StringBuilder();
     }
 
     public class AsynchronousSocketListener
     {
         // Thread signal.  
-        public ManualResetEvent allDone = new ManualResetEvent(false);
-
-        public AsynchronousSocketListener()
-        {
-        }
+        public ManualResetEvent AllDone = new ManualResetEvent(false);
 
         public void StartListening(String ipAddress, int port)
         {
             // Data buffer for incoming data.  
-            byte[] bytes = new Byte[1024];
+            //byte[] bytes = new Byte[1024];
             
             IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Parse(ipAddress), port);
 
@@ -53,16 +49,17 @@ namespace AsyncServer
                 while (true)
                 {
                     // Set the event to nonsignaled state.  
-                    allDone.Reset();
+                    AllDone.Reset();
 
                     // Start an asynchronous socket to listen for connections.  
                     Console.WriteLine("Waiting for a connection...");
                     listener.BeginAccept(
-                        new AsyncCallback(AcceptCallback),
-                        listener);
+                        AcceptCallback,
+                        listener
+                    );
 
                     // Wait until a connection is made before continuing.  
-                    allDone.WaitOne();
+                    AllDone.WaitOne();
                 }
 
             }
@@ -79,27 +76,23 @@ namespace AsyncServer
         public void AcceptCallback(IAsyncResult ar)
         {
             // Signal the main thread to continue.  
-            allDone.Set();
+            AllDone.Set();
 
             // Get the socket that handles the client request.  
             Socket listener = (Socket) ar.AsyncState;
             Socket handler = listener.EndAccept(ar);
 
             // Create the state object.  
-            StateObject state = new StateObject();
-            state.workSocket = handler;
-            handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-                new AsyncCallback(ReadCallback), state);
+            StateObject state = new StateObject {WorkSocket = handler};
+            handler.BeginReceive(state.Buffer, 0, StateObject.BufferSize, 0, ReadCallback, state);
         }
 
         public void ReadCallback(IAsyncResult ar)
         {
-            String content = String.Empty;
-
             // Retrieve the state object and the handler socket  
             // from the asynchronous state object.  
             StateObject state = (StateObject) ar.AsyncState;
-            Socket handler = state.workSocket;
+            Socket handler = state.WorkSocket;
 
             // Read data from the client socket.   
             int bytesRead = handler.EndReceive(ar);
@@ -107,26 +100,26 @@ namespace AsyncServer
             if (bytesRead > 0)
             {
                 // There  might be more data, so store the data received so far.  
-                state.sb.Append(Encoding.ASCII.GetString(
-                    state.buffer, 0, bytesRead));
+                state.Sb.Append(Encoding.ASCII.GetString(
+                    state.Buffer, 0, bytesRead));
 
                 // Check for end-of-file tag. If it is not there, read   
                 // more data.  
-                content = state.sb.ToString();
-                if (content.IndexOf("<EOF>") > -1)
+                String content = state.Sb.ToString();
+                int idx = content.IndexOf("<EOF>", StringComparison.Ordinal);
+                if (idx > -1)
                 {
                     // All the data has been read from the   
                     // client. Display it on the console.  
                     Console.WriteLine("Read {0} bytes from socket. \n Data : {1}",
                         content.Length, content);
                     // Echo the data back to the client.  
-                    Send(handler, content);
+                    Send(handler, content.Substring(0, idx));
                 }
                 else
                 {
                     // Not all data received. Get more.  
-                    handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-                        new AsyncCallback(ReadCallback), state);
+                    handler.BeginReceive(state.Buffer, 0, StateObject.BufferSize, 0, ReadCallback, state);
                 }
             }
         }
@@ -137,8 +130,7 @@ namespace AsyncServer
             byte[] byteData = Encoding.ASCII.GetBytes(data);
 
             // Begin sending the data to the remote device.  
-            handler.BeginSend(byteData, 0, byteData.Length, 0,
-                new AsyncCallback(SendCallback), handler);
+            handler.BeginSend(byteData, 0, byteData.Length, 0, SendCallback, handler);
         }
 
         private void SendCallback(IAsyncResult ar)
