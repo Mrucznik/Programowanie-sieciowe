@@ -3,35 +3,35 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab2-KlientECHO", "Lab1\Lab2-KlientECHO.csproj", "{C78979BE-7A6D-49AB-9F5A-7BA8AB8724D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab2-KlientECHO", "Lab2\Lab2-KlientECHO.csproj", "{C78979BE-7A6D-49AB-9F5A-7BA8AB8724D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab3-SerwerECHO", "Lab2\Lab3-SerwerECHO.csproj", "{7A0BF739-D672-4FEB-8357-9E9A01A5D616}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab3-SerwerECHO", "Lab3\Lab3-SerwerECHO.csproj", "{7A0BF739-D672-4FEB-8357-9E9A01A5D616}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncServer", "AsyncServer\AsyncServer.csproj", "{1C21F86E-AEFB-45AB-934F-A4E7238C7E4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncServer", "Lab5\AsyncServer\AsyncServer.csproj", "{1C21F86E-AEFB-45AB-934F-A4E7238C7E4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncClient", "AsyncClient\AsyncClient.csproj", "{E41EA6F5-F511-49DA-A4E1-FBDC37C8B204}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncClient", "Lab5\AsyncClient\AsyncClient.csproj", "{E41EA6F5-F511-49DA-A4E1-FBDC37C8B204}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zad6_Filozofowie", "Lab4_Zad6_Filozofowie\Zad6_Filozofowie.csproj", "{BD1561B3-8CB7-49AC-A3B2-040DBBB187C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zad6_Filozofowie", "Lab4\Zad6_Filozofowie\Zad6_Filozofowie.csproj", "{BD1561B3-8CB7-49AC-A3B2-040DBBB187C4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lab5", "Lab5", "{63F84082-6D92-48C2-B008-4E5F7E850088}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lab4", "Lab4", "{DC885397-E601-42EE-9ADC-AA5C9A1C9454}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zad1_PierwszyWatek", "Zad1_PierwszyWatek\Zad1_PierwszyWatek.csproj", "{C465BA66-ACE7-4B1B-883B-F243DB19DDA8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zad1_PierwszyWatek", "Lab4\Zad1_PierwszyWatek\Zad1_PierwszyWatek.csproj", "{C465BA66-ACE7-4B1B-883B-F243DB19DDA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zad2_Wznawianie", "Zad2_Wznawianie\Zad2_Wznawianie.csproj", "{F589358D-AB58-4B6D-A097-FA8C82299C1E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zad2_Wznawianie", "Lab4\Zad2_Wznawianie\Zad2_Wznawianie.csproj", "{F589358D-AB58-4B6D-A097-FA8C82299C1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zad3_Synchronizacja", "Zad3_Synchronizacja\Zad3_Synchronizacja.csproj", "{707FDD36-12C3-49C4-9C16-84292A193A14}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zad3_Synchronizacja", "Lab4\Zad3_Synchronizacja\Zad3_Synchronizacja.csproj", "{707FDD36-12C3-49C4-9C16-84292A193A14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zad4_Semafory", "Zad4_Semafory\Zad4_Semafory.csproj", "{E05E2BC5-C225-4342-9337-1F81A3AD2E13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zad4_Semafory", "Lab4\Zad4_Semafory\Zad4_Semafory.csproj", "{E05E2BC5-C225-4342-9337-1F81A3AD2E13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zad5_Async", "Zad5_Async\Zad5_Async.csproj", "{7115384E-D935-4B75-B137-E5E9C871E21F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zad5_Async", "Lab4\Zad5_Async\Zad5_Async.csproj", "{7115384E-D935-4B75-B137-E5E9C871E21F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lab6", "Lab6", "{379A1960-958F-4A58-B04F-20FC64FBD8A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDPUnicastServer", "UDPUnicastServer\UDPUnicastServer.csproj", "{DFE43806-B1B4-4DCC-92E5-179FE6D39BA1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDPUnicastServer", "Lab6\UDPUnicastServer\UDPUnicastServer.csproj", "{DFE43806-B1B4-4DCC-92E5-179FE6D39BA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDPUnicastClient", "UDPUnicastClient\UDPUnicastClient.csproj", "{ADA2127E-DAE8-4A70-B9C8-1D3B4E9862AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDPUnicastClient", "Lab6\UDPUnicastClient\UDPUnicastClient.csproj", "{ADA2127E-DAE8-4A70-B9C8-1D3B4E9862AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

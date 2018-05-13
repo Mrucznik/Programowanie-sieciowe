@@ -1,76 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab2
+namespace Programowanie_sieciowe
 {
     class Program
     {
-        /*
-         * Zadanie:
-         * http://rwajman.iis.p.lodz.pl/materials/ps1/Laboratoria/PS_lab_04_VS%20i%20watki.pdf
-         * 
-         * Wykład:
-         * http://rwajman.iis.p.lodz.pl/materials/ps1/Wyklady/PS1%20-%20Wyklad%204%20-%20Serwer%20TCP.pdf
-         * 
-         * Dokumentacja:
-         * https://msdn.microsoft.com/en-us/library/system.net.sockets.socket.listen(v=vs.110).aspx
-         * 
-         */
-
         static void Main(string[] args)
         {
-            Console.WriteLine("Provide communication port: ");
-            if (!int.TryParse(Console.ReadLine(), out var port))
-            {
-                port = 7;
-            }
-
             try
             {
-                Console.WriteLine("Creating socket... ");
-
                 Socket socket = new Socket(
-                    AddressFamily.InterNetwork, //serwer działa tylko w wewnętrznej sieci
+                    AddressFamily.InterNetwork,
                     SocketType.Stream,
                     ProtocolType.Unspecified
                 );
+                socket.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 7));
+            
+                Console.WriteLine("Provide request data: ");
+                String data = Console.ReadLine();
+                Console.WriteLine("Sending request");
+                socket.Send(Encoding.ASCII.GetBytes(data + "\n"));
 
-                Console.WriteLine("Binding... ");
-                socket.Bind(new IPEndPoint(IPAddress.Parse("127.0.0.1"), port));
-
-                Console.WriteLine("Listening... ");
-                socket.Listen(5);
-
-                while (true)
-                {
-                    Socket client = socket.Accept();
-                    Console.WriteLine("Connected with {0}", client.RemoteEndPoint);
-
-                    byte[] buffer = new byte[1024];
-                    client.Receive(buffer);
-
-                    var recivedString = Encoding.ASCII.GetString(buffer);
-                    var sendString = recivedString.Substring(0, recivedString.IndexOf('\n'));
-
-                    Console.WriteLine($"Recived: {recivedString}");
-                    Console.WriteLine($"Sending: {sendString}");
-                    client.Send(Encoding.ASCII.GetBytes(sendString));
-
-                    Console.WriteLine("Data sent, closing connection");
-                    client.Close();
-                }
+                Console.WriteLine("Waiting for response");
+                byte[] buffer = new byte[1024];
+                int result = socket.Receive(buffer);
+                String response = Encoding.ASCII.GetString(buffer, 0, result);
+                Console.WriteLine($"RESPONSE: {response}.");
             }
-            catch (SocketException e)
+            catch(SocketException e)
             {
                 Console.WriteLine(e.Message);
             }
-            
         }
     }
 }
