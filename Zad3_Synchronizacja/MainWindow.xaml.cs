@@ -12,6 +12,7 @@ namespace Zad3_Synchronizacja
     {
         private readonly Thread[] _threads;
         private readonly TextBox _textBox;
+        private readonly object locker = new object();
 
         public MainWindow()
         {
@@ -30,44 +31,41 @@ namespace Zad3_Synchronizacja
                 int nr = i % 10;
 
                 //Create buttons
-                var bstart = new Button { Content = $"Start {nr} thread", Margin = new Thickness(5) };
+                var bstart = new Button { Content = $"Resume {nr} thread", Margin = new Thickness(5), IsEnabled = false};
                 var bstop = new Button { Content = $"Stop {nr} thread", Margin = new Thickness(5) };
 
                 //Create Threads
+                var waitHandle = new ManualResetEvent(initialState: true);
                 _threads[nr] = new Thread(() =>
                 {
                     for (char c = 'A'; c <= 'Z'; c++)
                     {
-                        SendMessage($@"{c}{nr}");
-                        Thread.Sleep(1000);
+                        lock (this)
+                        {
+                            SendMessage($@"{c}{nr}");
+                            Thread.Sleep(1000);
+                        }
+                        waitHandle.WaitOne();
                     }
 
                     _textBox.Dispatcher.BeginInvoke(new Action(() => { bstop.IsEnabled = false; }));
                 });
+                _threads[nr].Start();
 
                 //Create UI events handler
                 bstart.Click += (sender, args) =>
                 {
-                    if (_threads[nr].IsAlive)
-                    {
-                        SendMessage($"Resume thread nr {nr}");
-                        bstop.IsEnabled = true;
-                        bstart.IsEnabled = false;
-                        _threads[nr].Resume();
-                    }
-                    else
-                    {
-                        SendMessage($"Thread nr {nr} started");
-                        _threads[nr].Start();
-                        bstart.IsEnabled = false;
-                    }
+                    SendMessage($"Resume thread nr {nr}");
+                    bstop.IsEnabled = true;
+                    bstart.IsEnabled = false;
+                    waitHandle.Set();
                 };
 
                 bstop.Click += (sender, args) =>
                 {
                     if (_threads[nr].IsAlive)
                     {
-                        _threads[nr].Suspend();
+                        waitHandle.Reset();
                         bstart.Content = $"Resume {nr} thread";
                         bstart.IsEnabled = true;
                         bstop.IsEnabled = false;
