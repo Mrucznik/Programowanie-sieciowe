@@ -1,20 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace Zad2_Wznawianie
+namespace Zad3_Synchronizacja
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -41,9 +30,9 @@ namespace Zad2_Wznawianie
                 int nr = i % 10;
 
                 //Create buttons
-                var bstart = new Button {Content = $"Start {nr} thread", Margin = new Thickness(5)};
-                var bstop = new Button {Content = $"Stop {nr} thread", Margin = new Thickness(5) };
-                
+                var bstart = new Button { Content = $"Start {nr} thread", Margin = new Thickness(5) };
+                var bstop = new Button { Content = $"Stop {nr} thread", Margin = new Thickness(5) };
+
                 //Create Threads
                 _threads[nr] = new Thread(() =>
                 {
