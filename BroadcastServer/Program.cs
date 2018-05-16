@@ -12,10 +12,11 @@ namespace BroadcastServer
     {
         static void Main(string[] args)
         {
-            UdpClient udpclient = new UdpClient();
-
-            udpclient.EnableBroadcast = true;
-
+            UdpClient udpclient = new UdpClient(AddressFamily.InterNetwork)
+            {
+                EnableBroadcast = true
+            };
+            
             IPEndPoint remoteep = new IPEndPoint(IPAddress.Broadcast, 2222);
 
             Console.WriteLine("Press ENTER to start sending messages");
