@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ADA2127E-DAE8-4A70-B9C8-1D3B4E9862AA}</ProjectGuid>
+    <ProjectGuid>{1480B4BE-E069-46E7-8C1F-FF86ECFFE014}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>UDPUnicastClient</RootNamespace>
-    <AssemblyName>UDPUnicastClient</AssemblyName>
+    <RootNamespace>BroadcastClient</RootNamespace>
+    <AssemblyName>BroadcastClient</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
