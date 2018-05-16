@@ -9,30 +9,52 @@ namespace Lab4_Zad6_Filozofowie
 {
     public class Filozof
     {
+        private static int ID = 0;
+
+        private int id;
+        private int eatenMeals = 0;
+        private string name;
         private Fork leftFork;
         private Fork rightFork;
 
-        public Filozof LeftFilozof;
-        public Filozof RightFilozof;
-
-        public Filozof(Fork leftFork, Fork rightFork)
+        public Filozof(string name, Fork leftFork, Fork rightFork)
         {
             this.leftFork = leftFork;
             this.rightFork = rightFork;
+            this.name = name;
+            this.id = ID++;
         }
 
-        public void Start()
+        public void Dine()
         {
             while (true)
             {
+                Think();
                 Eat(leftFork, rightFork);
             }
         }
 
-        public void Eat(Fork leftFork, Fork rightFork)
+        private void Think()
         {
+            Console.WriteLine(name + " myśli...");
+            
+            Thread.Sleep(3000);
+
+            Console.WriteLine(name + " skończył myśleć");
+        }
+
+        private void Eat(Fork leftFork, Fork rightFork)
+        {
+            Console.WriteLine(name + " je");
+
             Random rand = new Random();
             Thread.Sleep(rand.Next(5000));
+
+            leftFork.Dirty = true;
+            rightFork.Dirty = true;
+            eatenMeals++;
+
+            Console.WriteLine(name + " skończył jeść");
         }
     }
 }
