@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MulticastClient
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            UdpClient client = new UdpClient();
+            UdpClient client = new UdpClient {ExclusiveAddressUse = false};
 
-            client.ExclusiveAddressUse = false;
             IPEndPoint localEp = new IPEndPoint(IPAddress.Any, 2222);
 
             client.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
