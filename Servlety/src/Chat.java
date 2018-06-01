@@ -5,12 +5,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Vector;
 
-@WebServlet(name = "CoopDate", urlPatterns = {"/data"})
-public class CoopDate extends HttpServlet {
+@WebServlet(name = "Chat", urlPatterns = {"/chat"})
+public class Chat extends HttpServlet {
+    private Collection<String> chat = Collections.synchronizedCollection(new Vector<String>());
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -24,19 +26,31 @@ public class CoopDate extends HttpServlet {
 
         response.setContentType("text/html;charset=UTF-8");
         try {
+            String message = request.getParameter("message");
+            if(message != null)
+            {
+                chat.add(message);
+            }
+
             PrintWriter out = response.getWriter();
+            out.println("<head>");
+            out.println("<META HTTP-EQUIV=Refresh CONTENT='10'>");
+            out.println("</head>");
 
             out.println("<body>");
 
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            Date date = new Date();
-            String dataString = dateFormat.format(date);
+            out.println("<div>");
+            for (String msg : chat) {
+                out.println(msg + "<br/>");
+            }
+            out.println("</div>");
 
-            out.println("<h2>Aktualna data: " + dataString + "</h2><br/>");
-            out.println("<form method=\"get\" action=\"witacz\">");
-            out.println("<input type=\"text\" name=\"imie\">");
-            out.println("<input type=\"submit\" name=\"przywitaj mnie\">");
+            out.println("<div>");
+            out.println("<form method=\"post\">");
+            out.println("<input type=\"text\" name=\"message\">");
+            out.println("<input type=\"submit\" name=\"Wyślij\">");
             out.println("</form>");
+            out.println("</div>");
 
             out.println("</body>");
 
