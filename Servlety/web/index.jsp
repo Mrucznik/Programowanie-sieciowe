@@ -11,6 +11,13 @@
     <title>$Title$</title>
 </head>
 <body>
+<div>
+    <form action="servlet" method="post">
+        <label for="x">X: </label><input id="x" type="text" name="x">
+        <label for="y">Y: </label><input id="y" type="text" name="y">
+        <input type="submit" value="Submit">
+    </form>
+</div>
     <h4><a href="servlet">Click here to go to the serverlet</a></h4>
 </body>
 </html>
