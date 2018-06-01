@@ -19,7 +19,7 @@ public class Servlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     {
-        response.setContentType("text/html;carset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         try {
             PrintWriter out = response.getWriter();
 
@@ -31,8 +31,7 @@ public class Servlet extends HttpServlet {
             out.println("wynik getHeader(\"Accept-Encoding\"): " + request.getHeader("Accept-Encoding") + "<br/>");
             out.println("wynik getHeader(\"User-Agent\"): " + request.getHeader("User-Agent") + "<br/><br/>");
 
-            out.println("Imię: " + request.getParameter("imie") + "<br/>");
-            out.println("Wiek: " + request.getParameter("wiek") + "<br/>");
+            out.println("Wynik=" + (Integer.parseInt(request.getParameter("x")) + Integer.parseInt(request.getParameter("y"))) + "<br/>");
 
             out.close();
         } catch (IOException e) {
