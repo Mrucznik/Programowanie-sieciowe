@@ -23,7 +23,16 @@ public class Servlet extends HttpServlet {
         try {
             PrintWriter out = response.getWriter();
 
-            out.println("<h1>No elo</h1>");
+            out.println("wynik getMethod: " + request.getMethod() + "<br/>");
+            out.println("wynik getRemoteAddr: " + request.getRemoteAddr() + "<br/>");
+            out.println("wynik getServerName: " + request.getServerName() + "<br/>");
+            out.println("wynik getHeader(\"Accept\"): " + request.getHeader("Accept") + "<br/>");
+            out.println("wynik getHeader(\"Accept-Language\"): " + request.getHeader("Accept-Language") + "<br/>");
+            out.println("wynik getHeader(\"Accept-Encoding\"): " + request.getHeader("Accept-Encoding") + "<br/>");
+            out.println("wynik getHeader(\"User-Agent\"): " + request.getHeader("User-Agent") + "<br/><br/>");
+
+            out.println("Imię: " + request.getParameter("imie") + "<br/>");
+            out.println("Wiek: " + request.getParameter("wiek") + "<br/>");
 
             out.close();
         } catch (IOException e) {
