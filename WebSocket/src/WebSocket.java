@@ -17,7 +17,8 @@ public class WebSocket {
     public void onOpen(Session session) {
         System.out.println(session.getId() + " has opened a connection");
         try {
-            session.getBasicRemote().sendText("Connection Established");
+            SessionHandler.addSession(session);
+            SessionHandler.sendToSession(session, "Connection Established");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -30,7 +31,7 @@ public class WebSocket {
     public void onMessage(String message, Session session) {
         System.out.println("Message from " + session.getId() + ": " + message);
         try {
-            session.getBasicRemote().sendText(message);
+            SessionHandler.sendToAllConnectedSessions(message);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -41,6 +42,7 @@ public class WebSocket {
      */
     @OnClose
     public void onClose(Session session) {
+        SessionHandler.removeSession(session);
         System.out.println("Session " + session.getId() + " has ended");
     }
 }
