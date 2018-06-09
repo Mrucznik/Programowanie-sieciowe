@@ -23,4 +23,12 @@ public class SessionHandler {
             sendToSession(session, message);
         }
     }
+
+    public static void sendToAllConnectedSessionsInRoom(String roomID, String message) throws IOException {
+        for (Session session : sessions) {
+            if(session.getUserProperties().get("roomID").equals(roomID)) {
+                sendToSession(session, message);
+            }
+        }
+    }
 }
