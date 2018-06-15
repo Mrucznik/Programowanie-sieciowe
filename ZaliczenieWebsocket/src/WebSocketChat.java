@@ -13,52 +13,26 @@ public class WebSocketChat {
     @OnOpen
     public void onOpen(Session session,  @PathParam("roomID") final String roomID, @PathParam("nick") final String nick) {
         System.out.println(session.getId() + " has opened a connection");
-        try {
-            session.getUserProperties().put("roomID", roomID);
-            session.getUserProperties().put("nick", nick);
-            SessionHandler.sendToSession(session, "Połączono z kanałem " + roomID);
-            chatManager.addToRoom(roomID, nick);
 
-            for(Message message : chatManager.getRoomHistory(roomID)) {
-                SessionHandler.sendToSession(session, message.toString());
-            }
-            String connectionMessage = nick + " dołączył do pokoju.";
-            chatManager.saveMessage(roomID, new Message(connectionMessage));
-            SessionHandler.sendToAllConnectedSessionsInRoom(roomID, connectionMessage);
+        session.getUserProperties().put("roomID", roomID);
+        session.getUserProperties().put("nick", nick);
 
-            SessionHandler.addSession(session);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        chatManager.joinRoom(session, nick, roomID);
     }
 
     @OnMessage
     public void onMessage(String message, Session session) {
         System.out.println("Message from " + session.getId() + ": " + message);
-        try {
-            String roomID = session.getUserProperties().get("roomID").toString();
-            String nick = session.getUserProperties().get("nick").toString();
-            Message msg = new Message(nick, message);
-            chatManager.saveMessage(roomID, msg);
-            SessionHandler.sendToAllConnectedSessionsInRoom(roomID,  msg.toString());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+
+        String roomID = session.getUserProperties().get("roomID").toString();
+        chatManager.sendMessage(roomID, session, message);
     }
 
     @OnClose
     public void onClose(Session session) {
         String roomID = session.getUserProperties().get("roomID").toString();
-        String nick = session.getUserProperties().get("nick").toString();
-        chatManager.removeFromRoom(roomID, nick);
-        SessionHandler.removeSession(session);
-        try {
-            String disconnectionMessage = nick + " odszedł z pokoju.";
-            chatManager.saveMessage(roomID, new Message(disconnectionMessage));
-            SessionHandler.sendToAllConnectedSessionsInRoom(roomID, disconnectionMessage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        chatManager.leftRoom(session, roomID);
+
         System.out.println("Session " + session.getId() + " has ended");
     }
 }

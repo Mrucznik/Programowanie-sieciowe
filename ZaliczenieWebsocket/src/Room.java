@@ -1,42 +1,39 @@
+import javax.websocket.Session;
+import java.io.IOException;
 import java.util.*;
 
 public class Room {
     private String roomName;
     private List<Message> history = new LinkedList<>();
-    private Map<String, User> users = new HashMap<>();
+    private Map<Session, User> users = new HashMap<>();
 
     public Room(String roomName) {
         this.roomName = roomName;
     }
 
-    public String getName() {
-        return roomName;
+    void addUser(Session userSession, User user) {
+        users.put(userSession, user);
     }
 
-    public void addUser(String userName) {
-        users.put(userName, new User(userName));
-    }
-
-    public void removeUser(String userName) {
-        users.remove(userName);
+    void removeUser(Session userSession) {
+        users.remove(userSession);
         if(users.size() == 0)
-            clearHistory();
+            history.clear();
     }
 
-    public boolean addMessage(Message message) {
-        return history.add(message);
+    User getUser(Session userSession)
+    {
+        return users.get(userSession);
     }
 
-    public void clearHistory() {
-        history.clear();
-    }
-
-    public List<Message> getHistory() {
+    List<Message> getHistory() {
         return history;
     }
 
-    public User getUser(String name)
-    {
-        return users.get(name);
+    void sendToRoom(Message message) {
+        history.add(message);
+        for(User user : users.values()) {
+            user.sendMessage(message);
+        }
     }
 }
