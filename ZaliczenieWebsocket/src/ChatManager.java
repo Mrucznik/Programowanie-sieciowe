@@ -1,4 +1,6 @@
 import javax.websocket.Session;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +38,14 @@ class ChatManager {
         User user = room.getUser(userSession);
 
         room.sendToRoom(new Message(user.getNick(), messageText));
+    }
+
+    void userWriting(String roomName, Session userSession, boolean writing)
+    {
+        Room room =  rooms.get(roomName);
+        User user = room.getUser(userSession);
+
+        room.setWriting(user, writing);
     }
 
     private void sendHistory(Room room, User user)
