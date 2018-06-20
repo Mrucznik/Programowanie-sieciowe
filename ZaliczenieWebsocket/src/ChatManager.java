@@ -28,8 +28,8 @@ class ChatManager {
         User user = room.getUser(userSession);
         Message message = new Message(user.getNick() + " odszedł z pokoju.");
 
-        room.sendToRoom(message);
         room.removeUser(userSession);
+        room.sendToRoom(message);
     }
 
     void sendMessage(String roomName, Session userSession, String messageText)

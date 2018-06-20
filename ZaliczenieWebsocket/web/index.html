@@ -5,6 +5,8 @@
     <title>Chat</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 </head>
 <body>
 
@@ -19,14 +21,23 @@
     <button type="button" onclick="closeSocket();">Close</button>
 </div>
 <!-- Server responses get written here -->
-<div id="messages"></div>
-<div id="users"></div>
-
+<div class="chat">
+    <div id="users" class="users">
+        <h3>Users</h3>
+        <div class='user user_writing'>Sucznik</div>
+        <div class='user'>Mrucznik</div>
+    </div>
+    <div id="messages" class="messages">
+        <h3>Chat</h3>
+        <div class='message'><span class="nickname">Nick: </span>message</div>
+    </div>
+</div>
 <!-- Script to utilise the WebSocket -->
 <script type="text/javascript">
 
     let webSocket;
     let writing = false;
+    let websocketnick;
     const messages = document.getElementById("messages");
     const users = document.getElementById("users");
     const roomID = document.getElementById("roomid");
@@ -45,6 +56,7 @@
 
         // Create a new instance of the websocket
         webSocket = new WebSocket("ws://localhost:8080/ZaliczenieWebsocket_war_exploded/chat/" + roomID.value + "/" + nickinput.value);
+        websocketnick = nickinput.value;
 
         /**
          * Binds functions to the listeners for the websocket.
@@ -93,8 +105,12 @@
         webSocket.close();
     }
 
-    function writeMessage(text) {
-        messages.innerHTML += "<br/>" + text;
+    function writeMessage(text, my_message=false) {
+        if(my_message)
+            messages.innerHTML += "<div class='my_message'>" + text + "</div>";
+        else
+            messages.innerHTML += "<div class='message'>" + text + "</div>";
+
     }
 
     function writeUsers(usersArray)
@@ -102,7 +118,14 @@
         users.innerHTML = "";
         for(let i in usersArray)
         {
-            users.innerHTML += "<div class='user'>"+usersArray[i].nick+" writing: "+usersArray[i].writing+"</div>";
+            if(usersArray[i].writing)
+            {
+                users.innerHTML += "<div class='user user_writing'>"+usersArray[i].nick+"</div>";
+            }
+            else
+            {
+                users.innerHTML += "<div class='user'>"+usersArray[i].nick+"</div>";
+            }
         }
     }
 

@@ -1,0 +1,37 @@
+.chat
+{
+    display:flex;
+}
+
+.messages
+{
+    background-color:lavender;
+    width:80%;
+    padding:10px;
+}
+
+.message
+{
+
+}
+
+.nickname
+{
+
+}
+
+.users
+{
+    background-color:lavenderblush;
+    width:20%;
+    padding:10px;
+}
+
+.user
+{
+}
+
+.user_writing
+{
+    font-weight: bold;
+}
