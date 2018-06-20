@@ -1,13 +1,77 @@
-.chat
+#header
 {
+    font-size:24px;
+    color: #faf9f9;
+    padding-top:5px;
+    padding-left:10px;
+    height:50px;
+    background-color: #555b6e;
+}
+
+#chat
+{
+    height: calc(85vh - 50px);
     display:flex;
 }
 
-.messages
+#chat-control
 {
-    background-color:lavender;
+    height:15vh;
+    background-color: #dceed1;
+    display:flex;
+}
+
+#messages
+{
+    background-color:#faf9f9;
     width:80%;
     padding:10px;
+    overflow:auto;
+}
+
+#users
+{
+    background-color: #c7ccdb;
+    width:20%;
+    padding:10px;
+    overflow:auto;
+}
+
+#user-container
+{
+    padding-left: 15px;
+}
+
+#room-input-container
+{
+    width:20%;
+    padding:10px;
+}
+
+#message-input-container
+{
+    width:80%;
+    padding:10px;
+}
+
+#button-container
+{
+    padding-top:10px;
+}
+
+#button-container *
+{
+    margin-right: 5px;
+}
+
+#message-input
+{
+    width:100%;
+}
+
+#nick-input
+{
+
 }
 
 .message
@@ -20,15 +84,16 @@
 
 }
 
-.users
+
+.user:before
 {
-    background-color:lavenderblush;
-    width:20%;
-    padding:10px;
+    content: "• ";
 }
 
-.user
+.user_writing:after
 {
+    font-weight: normal;
+    content: " is writing...";
 }
 
 .user_writing

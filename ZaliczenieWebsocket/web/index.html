@@ -10,27 +10,57 @@
 </head>
 <body>
 
-<div>
-    <label for="roomid">Room ID: </label><input type="text" id="roomid"/>
-    <label for="nickinput">Nick: </label><input type="text" id="nickinput"/>
-    <label for="messageinput">Message: </label><input type="text" id="messageinput" oninput="writingMessage();"/>
-</div>
-<div>
-    <button type="button" onclick="openSocket();">Open</button>
-    <button type="button" onclick="send();">Send</button>
-    <button type="button" onclick="closeSocket();">Close</button>
-</div>
 <!-- Server responses get written here -->
-<div class="chat">
-    <div id="users" class="users">
-        <h3>Users</h3>
-        <div class='user user_writing'>Sucznik</div>
-        <div class='user'>Mrucznik</div>
+<div id="header">
+    Chat
+</div>
+<div id="chat">
+    <div id="users">
+        <h5 id="users-room">Users</h5>
+        <div id="user-container">
+        </div>
     </div>
-    <div id="messages" class="messages">
-        <h3>Chat</h3>
-        <div class='message'><span class="nickname">Nick: </span>message</div>
+    <div id="messages">
     </div>
+</div>
+<div id="chat-control">
+        <div id="room-input-container">
+            <table>
+                <tr>
+                    <th>
+                        <label for="roomid">Room ID: </label>
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" id="roomid"/>
+                    </th>
+                </tr>
+            </table>
+            <div id="button-container">
+                <button type="button" class="btn btn-success" onclick="openSocket();">Connect</button>
+                <button type="button" class="btn btn-warning" onclick="closeSocket();">Disconnect</button>
+                <button type="button" class="btn btn-default" onclick="send();">Send</button>
+            </div>
+        </div>
+        <div id="message-input-container">
+            <table>
+                <tr>
+                    <th>
+                        <label for="nick-input">Nick: </label>
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" id="nick-input"/>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="message-input">Message: </label>
+                    </th>
+                    <th>
+                        <input type="text" id="message-input" class="form-control" oninput="writingMessage();" onkeypress="onenter(event)"/>
+                    </th>
+                </tr>
+            </table>
+        </div>
 </div>
 <!-- Script to utilise the WebSocket -->
 <script type="text/javascript">
@@ -39,9 +69,10 @@
     let writing = false;
     let websocketnick;
     const messages = document.getElementById("messages");
-    const users = document.getElementById("users");
+    const users = document.getElementById("user-container");
     const roomID = document.getElementById("roomid");
-    const nickinput = document.getElementById("nickinput");
+    const nickinput = document.getElementById("nick-input");
+    const usersRoom = document.getElementById("users-room");
 
     nickinput.value = "użytkownik" + Math.floor((Math.random() * 99) + 1);
 
@@ -53,10 +84,13 @@
         }
 
         messages.innerHTML = "";
+        usersRoom.innerHTML = "Users in " + roomID.value;
+        lastScrollHeight = messages.scrollHeight;
 
         // Create a new instance of the websocket
         webSocket = new WebSocket("ws://localhost:8080/ZaliczenieWebsocket_war_exploded/chat/" + roomID.value + "/" + nickinput.value);
         websocketnick = nickinput.value;
+        nickinput.disabled = true;
 
         /**
          * Binds functions to the listeners for the websocket.
@@ -86,6 +120,7 @@
         webSocket.onclose = function (event) {
             writeMessage("Connection closed");
             webSocket = undefined;
+            nickinput.disabled = false;
         };
     }
 
@@ -93,7 +128,9 @@
      * Sends the value of the text input to the server
      */
     function send() {
-        const text = document.getElementById("messageinput").value;
+        const text = document.getElementById("message-input").value;
+        document.getElementById("message-input").value = "";
+        writingMessage();
         const message = {
             'type': 'message',
             'message': text
@@ -102,6 +139,7 @@
     }
 
     function closeSocket() {
+        users.innerHTML = "";
         webSocket.close();
     }
 
@@ -111,6 +149,8 @@
         else
             messages.innerHTML += "<div class='message'>" + text + "</div>";
 
+        lastScrollHeight = messages.scrollHeight;
+        messages.scrollTop = messages.scrollHeight;
     }
 
     function writeUsers(usersArray)
@@ -130,7 +170,7 @@
     }
 
     function writingMessage() {
-        const text = document.getElementById("messageinput").value;
+        const text = document.getElementById("message-input").value;
         if(text.length >= 1)
         {
             if(writing === false)
@@ -147,13 +187,20 @@
         {
             if(writing === true)
             {
-                writing = false;
                 const message = {
                     'type': 'writing',
                     'writing': false
                 };
                 webSocket.send(JSON.stringify(message));
             }
+            writing = false;
+        }
+    }
+
+    //trigger button on enter
+    function onenter(e){
+        if(e.keyCode === 13){
+            send();
         }
     }
 
